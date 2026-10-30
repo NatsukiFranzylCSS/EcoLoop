@@ -41,7 +41,6 @@ onMounted(() => {
 onMounted(() => window.addEventListener('purchase-request-submitted', refreshMarketplaceRequests))
 onUnmounted(() => window.removeEventListener('purchase-request-submitted', refreshMarketplaceRequests))
 
-// Refetch data anytime the search query updates
 watch(debouncedSearchQuery, async (newQuery) => {
   fetchEvents({ searchQuery: newQuery })
   fetchPosts(newQuery)

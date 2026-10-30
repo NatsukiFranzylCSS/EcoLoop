@@ -76,3 +76,4 @@ ecoloop-web/supabase/migrations/
 ecoloop-web/parse_html.py
 ecoloop-web/parse_html.cjs
 ecoloop-web/out.txt
+skills/

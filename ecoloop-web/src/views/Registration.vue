@@ -5,7 +5,6 @@ import { supabase } from '../composables/useAuth'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
-// --- Vite Leaflet Icon Fix ---
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
 import markerIcon from 'leaflet/dist/images/marker-icon.png'
 import markerShadow from 'leaflet/dist/images/marker-shadow.png'
@@ -18,11 +17,9 @@ L.Icon.Default.mergeOptions({
 
 const router = useRouter()
 
-// --- Step Management ---
 const currentStep = ref<1 | 2>(1)
 const formStep1Ref = ref<HTMLFormElement | null>(null)
 
-// --- Step 1 States (Info) ---
 const fullName = ref('')
 const contactNumber = ref('')
 const email = ref('')
@@ -33,7 +30,6 @@ const isOrganization = ref(false)
 const showPassword = ref(false)
 const showConfirmPassword = ref(false)
 
-// --- Step 2 States (Location) ---
 const locationAddress = ref('')
 const latitude = ref<number | null>(null)
 const longitude = ref<number | null>(null)
@@ -41,18 +37,15 @@ const mapContainer = ref<HTMLElement | null>(null)
 let mapInstance: L.Map | null = null
 let markerInstance: L.Marker | null = null
 
-// --- Submission State ---
 const isSubmitting = ref(false)
 const errorMessage = ref('')
 
 const togglePasswordVisibility = () => showPassword.value = !showPassword.value
 const toggleConfirmPasswordVisibility = () => showConfirmPassword.value = !showConfirmPassword.value
 
-// --- Proceed to Step 2 ---
 const goToStep2 = async () => {
   errorMessage.value = ''
 
-  // Use HTML5 form validation to ensure step 1 is filled out correctly
   if (!formStep1Ref.value?.checkValidity()) {
     formStep1Ref.value?.reportValidity()
     return
@@ -68,10 +61,8 @@ const goToStep2 = async () => {
     return
   }
 
-  // Switch to Step 2
   currentStep.value = 2
 
-  // Give Vue a moment to render the map container, then initialize Leaflet
   await nextTick()
   setTimeout(() => initMap(), 150)
 }
@@ -81,7 +72,6 @@ const goBackToStep1 = () => {
   errorMessage.value = ''
 }
 
-// --- Initialize Leaflet Map ---
 const initMap = () => {
   if (!mapContainer.value) return
 
@@ -91,7 +81,6 @@ const initMap = () => {
     markerInstance = null
   }
 
-  // Center on Dumaguete City by default
   const defaultLat = 9.3068
   const defaultLng = 123.3054
 
@@ -102,7 +91,6 @@ const initMap = () => {
     maxZoom: 19
   }).addTo(mapInstance)
 
-  // Draw initial marker if they already clicked once and went back
   if (latitude.value && longitude.value) {
     markerInstance = L.marker([latitude.value, longitude.value]).addTo(mapInstance)
   }
@@ -124,7 +112,6 @@ const initMap = () => {
   }, 250)
 }
 
-// --- Final Registration Submission ---
 const handleRegister = async () => {
   if (isSubmitting.value) return
   errorMessage.value = ''

@@ -33,7 +33,6 @@ const handleLogin = async () => {
       return
     }
 
-    // Success! Session is automatically saved.
     router.push('/home')
   } catch (err) {
     errorMessage.value = 'Could not reach the server. Please check your connection.'
